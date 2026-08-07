@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root,
+.theme-night {
+    --color-bg: #1f2937;
+    --color-panel: #111827;
+    --color-text: #f87171;
+    --color-text-accent: #86efac;
+    --color-accent: #f87171;
+}
+
+.theme-day {
+    --color-bg: #f3f4f6;
+    --color-panel: #ffffff;
+    --color-text: #111827;
+    --color-text-accent: #1f2937;
+    --color-accent: #2563eb;
+}

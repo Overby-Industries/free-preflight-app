@@ -24,10 +24,12 @@ const NavLinks = () => {
                         key={link.name}
                         href={link.href}
                         className={clsx(
-                            'flex h-full items-center justify-center rounded-md bg-gray-900 text-sm font-medium hover:bg-gray-700 hover:text-green-400 justify-start p-2',
+                            'flex h-full items-center justify-center rounded-md bg-[var(--color-panel)] text-sm font-medium hover:opacity-80 justify-start p-2',
                             {
-                                'bg-gray-600 text-green-300':
+                                'text-[var(--color-text-accent)]':
                                     pathname === link.href,
+                                'text-[var(--color-text)]':
+                                    pathname !== link.href,
                             }
                         )}
                     >

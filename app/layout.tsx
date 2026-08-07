@@ -2,6 +2,19 @@ import type { Metadata, Viewport } from "next";
 import { montserrat } from '@/app/ui/fonts';
 import React from 'react';
 import "@/app/ui/globals.css";
+import { ThemeProvider } from '@/app/context/theme-context';
+
+const THEME_INIT_SCRIPT = `
+(function () {
+  try {
+    var stored = window.localStorage.getItem('freeflight-theme');
+    var theme = stored === 'day' ? 'day' : 'night';
+    document.documentElement.classList.add('theme-' + theme);
+  } catch (e) {
+    document.documentElement.classList.add('theme-night');
+  }
+})();
+`;
 
 const APP_NAME = "FreeFlight PWA App";
 const APP_DEFAULT_TITLE = "FreeFlight";
@@ -53,8 +66,13 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="en" className={`${montserrat.className} antialiased bg-gray-800 text-red-400`} dir="ltr">
-      <body>{children}</body>
+    <html lang="en" className={`${montserrat.className} antialiased bg-[var(--color-bg)] text-[var(--color-text)]`} dir="ltr">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

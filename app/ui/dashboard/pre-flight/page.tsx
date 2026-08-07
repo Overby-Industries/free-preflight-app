@@ -4,7 +4,7 @@ const PreFlight = () => {
     return (
         <>
             <section className="flex flex-col h-screen w-full items-center justify-between">
-                <p className="h-full w-full text-center text-xl pt-4">Pre-Flight</p>
+                <p className="h-full w-full text-center text-xl pt-4 text-[var(--color-text)]">Pre-Flight</p>
             </section>
         </>
     );
