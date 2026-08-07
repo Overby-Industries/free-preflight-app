@@ -3,12 +3,14 @@
 import React, { useEffect, useState } from 'react';
 
 type MetarReport = {
-    metar_id: number;
     icaoId: string;
+    obsTime: number;
     name: string;
     rawOb: string;
     rawTaf?: string;
-    fltcat?: string;
+    fltCat?: string;
+    lat?: number;
+    lon?: number;
 };
 
 const flightCategoryStyles: Record<string, string> = {
@@ -76,16 +78,16 @@ const GetMetar = () => {
                     <span className="text-sm opacity-70">No METAR data.</span>
                 )}
                 {reports.map((item) => (
-                    <div key={item.metar_id} className="flex flex-col gap-1">
+                    <div key={`${item.icaoId}-${item.obsTime}`} className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                             <span className="font-semibold">{item.name ?? item.icaoId}</span>
-                            {item.fltcat && (
+                            {item.fltCat && (
                                 <span
                                     className={`text-xs font-bold px-2 py-0.5 rounded ${
-                                        flightCategoryStyles[item.fltcat] ?? 'bg-gray-500 text-white'
+                                        flightCategoryStyles[item.fltCat] ?? 'bg-gray-500 text-white'
                                     }`}
                                 >
-                                    {item.fltcat}
+                                    {item.fltCat}
                                 </span>
                             )}
                         </div>
