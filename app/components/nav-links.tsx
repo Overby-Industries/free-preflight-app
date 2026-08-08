@@ -1,6 +1,12 @@
 'use client';
 
-import { MapIcon, RocketLaunchIcon, Square3Stack3DIcon, SunIcon } from '@heroicons/react/24/outline';
+import {
+    MapIcon,
+    RocketLaunchIcon,
+    ScaleIcon,
+    Square3Stack3DIcon,
+    SunIcon,
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
@@ -10,6 +16,7 @@ const links = [
     { name: 'Dashboard', href: '/ui/dashboard', icon: Square3Stack3DIcon },
     { name: 'Weather', href: '/ui/dashboard/weather', icon: SunIcon },
     { name: 'Traffic', href: '/ui/dashboard/traffic', icon: MapIcon },
+    { name: 'Weight & Balance', href: '/ui/dashboard/weight-balance', icon: ScaleIcon },
     { name: 'Pre-Flight', href: '/ui/dashboard/pre-flight', icon: RocketLaunchIcon },
 ];
 

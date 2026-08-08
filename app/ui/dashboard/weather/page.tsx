@@ -1,6 +1,8 @@
 import React from 'react';
 import GetMetar from '@/app/components/get-metar';
 import GetPirep from '@/app/components/get-pirep';
+import GetAirSigmet from '@/app/components/get-airsigmet';
+import GetWindsAloft from '@/app/components/get-windsaloft';
 
 const Weather = () => {
     return (
@@ -10,6 +12,8 @@ const Weather = () => {
                 <div className="flex flex-col h-full w-full items-start">
                     <GetMetar />
                     <GetPirep />
+                    <GetAirSigmet />
+                    <GetWindsAloft />
                 </div>
             </section>
         </>
