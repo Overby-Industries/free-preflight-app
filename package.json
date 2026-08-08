@@ -1,7 +1,13 @@
 {
-  "name": "free-flight",
+  "name": "free-preflight-app",
   "version": "0.1.0",
   "private": true,
+  "description": "FreeFlight - a free, lightweight pre-flight electronic flight bag (EFB) PWA.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Overby-Industries/free-preflight-app.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
