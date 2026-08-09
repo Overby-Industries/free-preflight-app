@@ -6,17 +6,16 @@ import GetWindsAloft from '@/app/components/get-windsaloft';
 
 const Weather = () => {
     return (
-        <>
-            <section className="flex flex-col h-screen w-full items-center justify-between">
-                <p className="h-fit w-full text-center text-xl pt-4 text-[var(--color-text)]">Weather</p>
-                <div className="flex flex-col h-full w-full items-start">
-                    <GetMetar />
-                    <GetPirep />
-                    <GetAirSigmet />
-                    <GetWindsAloft />
-                </div>
-            </section>
-        </>
+        <section className="flex flex-col w-full items-start pt-6">
+            <span className="eyebrow">Briefing</span>
+            <h2 className="font-serif text-2xl text-[var(--color-text)] pb-2">Weather</h2>
+            <div className="flex flex-col w-full items-start divide-y divide-[var(--color-rule)]">
+                <GetMetar />
+                <GetPirep />
+                <GetAirSigmet />
+                <GetWindsAloft />
+            </div>
+        </section>
     );
 }
 

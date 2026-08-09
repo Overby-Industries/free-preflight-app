@@ -53,11 +53,11 @@ const GetTraffic = () => {
     }, []);
 
     return (
-        <div className="flex flex-col h-fit w-full">
-            <label className="flex flex-row h-fit w-full items-center justify-between gap-2 py-4">
-                Traffic:
+        <div className="flex flex-col h-fit w-full py-4">
+            <span className="eyebrow">Traffic</span>
+            <div className="flex flex-row h-fit w-full items-center gap-2 pb-3">
                 <input
-                    className="flex-1 min-w-0 bg-[var(--color-panel)] text-[var(--color-text)] rounded-md p-2"
+                    className="field flex-1 min-w-0"
                     value={icao}
                     onChange={(e) => setIcao(e.target.value.toUpperCase())}
                     maxLength={4}
@@ -65,19 +65,19 @@ const GetTraffic = () => {
                 />
                 <button
                     type="button"
-                    className="text-[var(--color-accent)] items-center h-fit w-1/4 bg-[var(--color-panel)] rounded-md p-2 disabled:opacity-50"
+                    className="btn"
                     onClick={() => fetchTraffic(icao)}
                     disabled={loading}
                 >
                     {loading ? 'Loading...' : 'Show Traffic'}
                 </button>
-            </label>
-            {error && <p className="text-red-500 text-sm pb-2">{error}</p>}
+            </div>
+            {error && <p className="text-[var(--color-warn)] text-sm pb-2">{error}</p>}
             {center && (
-                <>
-                    <p className="text-sm pb-2 opacity-70">{aircraft.length} aircraft nearby</p>
+                <div className="panel">
+                    <p className="text-sm pb-2 text-[var(--color-text-accent)]">{aircraft.length} aircraft nearby</p>
                     <TrafficMap center={center} aircraft={aircraft} theme={theme} />
-                </>
+                </div>
             )}
         </div>
     );

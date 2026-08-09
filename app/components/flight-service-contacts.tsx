@@ -2,8 +2,8 @@ import React from 'react';
 
 const FlightServiceContacts = () => {
     return (
-        <div className="flex flex-col gap-3 bg-[var(--color-panel)] rounded-md p-4 w-full">
-            <h2 className="text-lg font-semibold text-[var(--color-text)]">Flight Service</h2>
+        <div className="panel flex flex-col gap-3 w-full">
+            <span className="eyebrow mb-0">Flight Service</span>
             <p className="text-sm">
                 Leidos Flight Service provides free weather briefings and can file, open, and
                 close a VFR flight plan by phone.
@@ -25,7 +25,7 @@ const FlightServiceContacts = () => {
                     1800wxbrief.com
                 </a>
             </div>
-            <p className="text-xs opacity-70">
+            <p className="text-xs opacity-70 border-t border-[var(--color-rule)] pt-3">
                 In-flight contact frequencies aren&apos;t listed here yet. The FAA is actively
                 decommissioning much of its remote communications outlet (RCO) network through
                 2026, so for now use the frequency published on your current sectional chart or

@@ -3,14 +3,13 @@ import GetTraffic from '@/app/components/get-traffic';
 
 const Traffic = () => {
     return (
-        <>
-            <section className="flex flex-col h-screen w-full items-center justify-between">
-                <p className="h-fit w-full text-center text-xl pt-4 text-[var(--color-text)]">Traffic</p>
-                <div className="flex flex-col h-full w-full items-start">
-                    <GetTraffic />
-                </div>
-            </section>
-        </>
+        <section className="flex flex-col w-full items-start pt-6">
+            <span className="eyebrow">Situational Awareness</span>
+            <h2 className="font-serif text-2xl text-[var(--color-text)] pb-2">Traffic</h2>
+            <div className="flex flex-col w-full items-start">
+                <GetTraffic />
+            </div>
+        </section>
     );
 }
 

@@ -14,10 +14,10 @@ type MetarReport = {
 };
 
 const flightCategoryStyles: Record<string, string> = {
-    VFR: 'bg-green-600 text-white',
-    MVFR: 'bg-blue-600 text-white',
-    IFR: 'bg-red-600 text-white',
-    LIFR: 'bg-fuchsia-600 text-white',
+    VFR: 'border-green-600 text-green-500',
+    MVFR: 'border-blue-600 text-blue-500',
+    IFR: 'border-red-600 text-red-500',
+    LIFR: 'border-fuchsia-600 text-fuchsia-500',
 };
 
 const GetMetar = () => {
@@ -51,11 +51,11 @@ const GetMetar = () => {
     }, []);
 
     return (
-        <div className="flex flex-col h-fit w-full">
-            <label className="flex flex-row h-fit w-full items-center justify-between gap-2 py-4">
-                METAR:
+        <div className="flex flex-col h-fit w-full py-4">
+            <span className="eyebrow">METAR &amp; TAF</span>
+            <div className="flex flex-row h-fit w-full items-center gap-2 pb-3">
                 <input
-                    className="flex-1 min-w-0 bg-[var(--color-panel)] text-[var(--color-text)] rounded-md p-2"
+                    className="field flex-1 min-w-0"
                     value={icao}
                     onChange={(e) => setIcao(e.target.value.toUpperCase())}
                     maxLength={4}
@@ -63,28 +63,30 @@ const GetMetar = () => {
                 />
                 <button
                     type="button"
-                    className="text-[var(--color-accent)] items-center h-fit w-1/4 bg-[var(--color-panel)] rounded-md p-2 disabled:opacity-50"
+                    className="btn"
                     onClick={() => fetchMetar(icao)}
                     disabled={loading}
                 >
                     {loading ? 'Loading...' : 'Get METAR'}
                 </button>
-            </label>
+            </div>
             {error && (
-                <p className="text-red-500 text-sm pb-2">{error}</p>
+                <p className="text-[var(--color-warn)] text-sm pb-2">{error}</p>
             )}
-            <div className="flex flex-col gap-2 h-fit w-full bg-[var(--color-panel)] text-[var(--color-text-accent)] rounded-md p-2">
+            <div className="panel flex flex-col gap-3 text-[var(--color-text)]">
                 {reports.length === 0 && !loading && !error && (
                     <span className="text-sm opacity-70">No METAR data.</span>
                 )}
                 {reports.map((item) => (
                     <div key={`${item.icaoId}-${item.obsTime}`} className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
-                            <span className="font-semibold">{item.name ?? item.icaoId}</span>
+                            <span className="font-sans text-xs font-bold uppercase tracking-widest">
+                                {item.name ?? item.icaoId}
+                            </span>
                             {item.fltCat && (
                                 <span
-                                    className={`text-xs font-bold px-2 py-0.5 rounded ${
-                                        flightCategoryStyles[item.fltCat] ?? 'bg-gray-500 text-white'
+                                    className={`border px-1.5 py-0.5 text-[10px] font-bold uppercase ${
+                                        flightCategoryStyles[item.fltCat] ?? 'border-gray-500 text-gray-400'
                                     }`}
                                 >
                                     {item.fltCat}
@@ -93,7 +95,7 @@ const GetMetar = () => {
                         </div>
                         <span className="text-sm break-words">{item.rawOb}</span>
                         {item.rawTaf && (
-                            <span className="text-sm break-words opacity-90">{item.rawTaf}</span>
+                            <span className="text-sm break-words text-[var(--color-text-accent)]">{item.rawTaf}</span>
                         )}
                     </div>
                 ))}

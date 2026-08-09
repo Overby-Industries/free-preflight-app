@@ -32,11 +32,11 @@ const GetWindsAloft = () => {
     }, []);
 
     return (
-        <div className="flex flex-col h-fit w-full">
-            <label className="flex flex-row h-fit w-full items-center justify-between gap-2 py-4">
-                Winds Aloft:
+        <div className="flex flex-col h-fit w-full py-4">
+            <span className="eyebrow">Winds Aloft</span>
+            <div className="flex flex-row h-fit w-full items-center gap-2 pb-3">
                 <select
-                    className="flex-1 min-w-0 bg-[var(--color-panel)] text-[var(--color-text)] rounded-md p-2"
+                    className="field flex-1 min-w-0"
                     value={level}
                     onChange={(e) => setLevel(e.target.value as 'low' | 'high')}
                 >
@@ -45,16 +45,16 @@ const GetWindsAloft = () => {
                 </select>
                 <button
                     type="button"
-                    className="text-[var(--color-accent)] items-center h-fit w-1/4 bg-[var(--color-panel)] rounded-md p-2 disabled:opacity-50"
+                    className="btn"
                     onClick={() => fetchWindsAloft(level)}
                     disabled={loading}
                 >
                     {loading ? 'Loading...' : 'Refresh'}
                 </button>
-            </label>
-            {error && <p className="text-red-500 text-sm pb-2">{error}</p>}
+            </div>
+            {error && <p className="text-[var(--color-warn)] text-sm pb-2">{error}</p>}
             <textarea
-                className="w-full bg-[var(--color-panel)] text-[var(--color-text-accent)] rounded-md p-2 font-mono text-xs"
+                className="field w-full text-[var(--color-text-accent)] text-xs"
                 name="windsAloftData"
                 value={text || (loading ? 'Loading...' : 'No data.')}
                 readOnly

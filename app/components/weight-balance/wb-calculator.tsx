@@ -15,7 +15,7 @@ const WBCalculator = ({ profile }: WBCalculatorProps) => {
     const isSafe = result.withinMaxGross && result.withinEnvelope;
 
     return (
-        <div className="flex flex-col gap-4 bg-[var(--color-panel)] rounded-md p-4">
+        <div className="panel flex flex-col gap-4">
             <div className="flex flex-col gap-2">
                 {profile.stations.map((station) => (
                     <label key={station.id} className="flex items-center justify-between gap-2">
@@ -24,7 +24,7 @@ const WBCalculator = ({ profile }: WBCalculatorProps) => {
                         </span>
                         <input
                             type="number"
-                            className="bg-[var(--color-bg)] text-[var(--color-text)] rounded-md p-2 w-28"
+                            className="field w-28"
                             value={stationWeights[station.id] ?? ''}
                             onChange={(e) =>
                                 setStationWeights((prev) => ({
@@ -41,7 +41,10 @@ const WBCalculator = ({ profile }: WBCalculatorProps) => {
             <div className="flex flex-col gap-1 text-sm">
                 <span>Total weight: {result.totalWeight.toFixed(1)} lb (max {profile.maxGrossWeight} lb)</span>
                 <span>CG: {result.cg.toFixed(2)} in</span>
-                <span className={isSafe ? 'text-green-500 font-semibold' : 'text-red-500 font-semibold'}>
+                <span
+                    className={isSafe ? 'text-green-500 font-semibold' : 'font-semibold'}
+                    style={isSafe ? undefined : { color: 'var(--color-warn)' }}
+                >
                     {isSafe
                         ? 'Within weight and CG envelope'
                         : !result.withinMaxGross

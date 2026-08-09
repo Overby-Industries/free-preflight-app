@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { montserrat } from '@/app/ui/fonts';
+import { instrumentSerif, syne, dmMono } from '@/app/ui/fonts';
 import React from 'react';
 import "@/app/ui/globals.css";
 import { ThemeProvider } from '@/app/context/theme-context';
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: "#14100d",
 };
 
 const RootLayout = ({
@@ -66,7 +66,11 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="en" className={`${montserrat.className} antialiased bg-[var(--color-bg)] text-[var(--color-text)]`} dir="ltr">
+    <html
+      lang="en"
+      className={`${instrumentSerif.variable} ${syne.variable} ${dmMono.variable} antialiased bg-[var(--color-bg)] text-[var(--color-text)]`}
+      dir="ltr"
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>

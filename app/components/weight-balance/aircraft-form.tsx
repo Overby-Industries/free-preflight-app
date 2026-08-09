@@ -9,7 +9,7 @@ type AircraftFormProps = {
     onCancel: () => void;
 };
 
-const inputClass = 'bg-[var(--color-bg)] text-[var(--color-text)] rounded-md p-2 w-full';
+const inputClass = 'field w-full';
 const labelClass = 'text-sm opacity-80';
 
 const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
@@ -50,7 +50,7 @@ const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
 
     return (
         <form
-            className="flex flex-col gap-4 bg-[var(--color-panel)] rounded-md p-4"
+            className="panel flex flex-col gap-4"
             onSubmit={(e) => {
                 e.preventDefault();
                 onSave(profile);
@@ -134,7 +134,7 @@ const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
                         <button
                             type="button"
                             onClick={() => removeStation(station.id)}
-                            className="text-red-500 text-sm"
+                            className="text-[var(--color-warn)] text-sm"
                         >
                             Remove
                         </button>
@@ -178,7 +178,7 @@ const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
                         <button
                             type="button"
                             onClick={() => removeEnvelopePoint(index)}
-                            className="text-red-500 text-sm"
+                            className="text-[var(--color-warn)] text-sm"
                         >
                             Remove
                         </button>
@@ -190,13 +190,13 @@ const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="bg-[var(--color-bg)] text-[var(--color-text)] rounded-md p-2 px-4"
+                    className="btn"
                 >
                     Cancel
                 </button>
                 <button
                     type="submit"
-                    className="bg-[var(--color-accent)] text-white rounded-md p-2 px-4"
+                    className="btn btn-primary"
                 >
                     Save aircraft
                 </button>

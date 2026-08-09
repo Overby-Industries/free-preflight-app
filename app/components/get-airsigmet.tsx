@@ -49,11 +49,11 @@ const GetAirSigmet = () => {
     }, []);
 
     return (
-        <div className="flex flex-col h-fit w-full">
-            <label className="flex flex-row h-fit w-full items-center justify-between gap-2 py-4">
-                AIRMET / SIGMET:
+        <div className="flex flex-col h-fit w-full py-4">
+            <span className="eyebrow">AIRMET / SIGMET</span>
+            <div className="flex flex-row h-fit w-full items-center gap-2 pb-3">
                 <select
-                    className="flex-1 min-w-0 bg-[var(--color-panel)] text-[var(--color-text)] rounded-md p-2"
+                    className="field flex-1 min-w-0"
                     value={hazard}
                     onChange={(e) => setHazard(e.target.value)}
                 >
@@ -65,21 +65,23 @@ const GetAirSigmet = () => {
                 </select>
                 <button
                     type="button"
-                    className="text-[var(--color-accent)] items-center h-fit w-1/4 bg-[var(--color-panel)] rounded-md p-2 disabled:opacity-50"
+                    className="btn"
                     onClick={() => fetchAirSigmet(hazard)}
                     disabled={loading}
                 >
                     {loading ? 'Loading...' : 'Refresh'}
                 </button>
-            </label>
-            {error && <p className="text-red-500 text-sm pb-2">{error}</p>}
-            <div className="flex flex-col gap-2 h-fit w-full bg-[var(--color-panel)] text-[var(--color-text-accent)] rounded-md p-2 max-h-64 overflow-y-auto">
+            </div>
+            {error && <p className="text-[var(--color-warn)] text-sm pb-2">{error}</p>}
+            <div className="panel flex flex-col gap-3 text-[var(--color-text)] max-h-64 overflow-y-auto">
                 {items.length === 0 && !loading && !error && (
                     <span className="text-sm opacity-70">No active AIRMETs/SIGMETs for this filter.</span>
                 )}
                 {items.map((item, index) => (
                     <div key={`${item.icaoId}-${index}`} className="flex flex-col gap-1">
-                        <span className="text-xs font-bold uppercase opacity-80">{item.hazard}</span>
+                        <span className="font-sans text-xs font-bold uppercase tracking-widest text-[var(--color-accent)]">
+                            {item.hazard}
+                        </span>
                         <span className="text-sm break-words whitespace-pre-wrap">{item.rawAirSigmet}</span>
                     </div>
                 ))}

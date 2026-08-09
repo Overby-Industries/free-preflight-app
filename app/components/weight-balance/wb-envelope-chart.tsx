@@ -41,7 +41,7 @@ const WBEnvelopeChart = ({ envelope, point, withinEnvelope }: WBEnvelopeChartPro
     return (
         <svg
             viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-            className="w-full max-w-md bg-[var(--color-bg)] rounded-md"
+            className="w-full max-w-md bg-[var(--color-bg)] border border-[var(--color-rule)]"
         >
             <polygon
                 points={polygonPoints}
@@ -53,7 +53,7 @@ const WBEnvelopeChart = ({ envelope, point, withinEnvelope }: WBEnvelopeChartPro
                 cx={toX(point.cg)}
                 cy={toY(point.weight)}
                 r={6}
-                fill={withinEnvelope ? '#22c55e' : '#ef4444'}
+                fill={withinEnvelope ? '#22c55e' : 'var(--color-warn)'}
                 stroke="white"
                 strokeWidth={1.5}
             />

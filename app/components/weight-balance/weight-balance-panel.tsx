@@ -19,8 +19,10 @@ const WeightBalancePanel = () => {
     const [editing, setEditing] = useState<AircraftProfile | null>(null);
 
     return (
-        <div className="flex flex-col gap-4 w-full">
-            <div className="bg-[var(--color-panel)] border-l-4 border-red-500 rounded-md p-3 text-sm">
+        <div className="flex flex-col gap-4 w-full py-4">
+            <span className="eyebrow">Weight &amp; Balance</span>
+
+            <div className="panel border-l-4 border-l-[var(--color-warn)] text-sm">
                 <strong>Reference only.</strong> Always use your aircraft&apos;s actual current
                 weighed empty weight and CG from its POH and weight &amp; balance record — never
                 placeholder or example data — for real flight planning.
@@ -28,7 +30,7 @@ const WeightBalancePanel = () => {
 
             <div className="flex flex-wrap items-center gap-2">
                 <select
-                    className="bg-[var(--color-panel)] text-[var(--color-text)] rounded-md p-2"
+                    className="field"
                     value={selectedId ?? ''}
                     onChange={(e) => setSelectedId(e.target.value)}
                 >
@@ -40,7 +42,7 @@ const WeightBalancePanel = () => {
                 </select>
                 <button
                     type="button"
-                    className="bg-[var(--color-panel)] text-[var(--color-accent)] rounded-md p-2"
+                    className="btn"
                     onClick={() => setEditing(createBlankProfile())}
                 >
                     + Add aircraft
@@ -49,14 +51,15 @@ const WeightBalancePanel = () => {
                     <>
                         <button
                             type="button"
-                            className="bg-[var(--color-panel)] text-[var(--color-accent)] rounded-md p-2"
+                            className="btn"
                             onClick={() => setEditing(selectedProfile)}
                         >
                             Edit
                         </button>
                         <button
                             type="button"
-                            className="bg-[var(--color-panel)] text-red-500 rounded-md p-2"
+                            className="btn"
+                            style={{ color: 'var(--color-warn)', borderColor: 'var(--color-warn)' }}
                             onClick={() => deleteProfile(selectedProfile.id)}
                         >
                             Delete

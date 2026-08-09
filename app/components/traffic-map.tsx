@@ -31,11 +31,16 @@ const TILE_LAYERS: Record<Theme, { url: string; attribution: string }> = {
     },
 };
 
-const planeIcon = (track: number) =>
+const ICON_COLORS: Record<Theme, { plane: string; airport: string }> = {
+    day: { plane: '#b8962e', airport: '#2a4a7f' },
+    night: { plane: '#e0554a', airport: '#d6524a' },
+};
+
+const planeIcon = (track: number, color: string) =>
     L.divIcon({
         className: 'traffic-plane-icon',
         html: `<div style="transform: rotate(${track}deg); width: 18px; height: 18px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#f87171" stroke="#111827" stroke-width="1">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="${color}" stroke="#14100d" stroke-width="1">
                 <path d="M12 2L4 15l8-3.5L20 15z" />
             </svg>
         </div>`,
@@ -43,12 +48,13 @@ const planeIcon = (track: number) =>
         iconAnchor: [9, 9],
     });
 
-const airportIcon = L.divIcon({
-    className: 'traffic-airport-icon',
-    html: `<div style="width: 12px; height: 12px; border-radius: 9999px; background: #2563eb; border: 2px solid white;"></div>`,
-    iconSize: [12, 12],
-    iconAnchor: [6, 6],
-});
+const airportIcon = (color: string) =>
+    L.divIcon({
+        className: 'traffic-airport-icon',
+        html: `<div style="width: 12px; height: 12px; background: ${color}; border: 2px solid white;"></div>`,
+        iconSize: [12, 12],
+        iconAnchor: [6, 6],
+    });
 
 const RecenterMap = ({ center }: { center: [number, number] }) => {
     const map = useMap();
@@ -66,12 +72,13 @@ type TrafficMapProps = {
 
 const TrafficMap = ({ center, aircraft, theme }: TrafficMapProps) => {
     const tiles = TILE_LAYERS[theme];
+    const colors = ICON_COLORS[theme];
 
     return (
         <MapContainer center={center} zoom={9} style={{ height: '500px', width: '100%' }}>
             <RecenterMap center={center} />
             <TileLayer url={tiles.url} attribution={tiles.attribution} />
-            <Marker position={center} icon={airportIcon}>
+            <Marker position={center} icon={airportIcon(colors.airport)}>
                 <Popup>Airport</Popup>
             </Marker>
             {aircraft
@@ -80,7 +87,7 @@ const TrafficMap = ({ center, aircraft, theme }: TrafficMapProps) => {
                     <Marker
                         key={ac.hex}
                         position={[ac.lat as number, ac.lon as number]}
-                        icon={planeIcon(ac.track ?? 0)}
+                        icon={planeIcon(ac.track ?? 0, colors.plane)}
                     >
                         <Popup>
                             <div className="flex flex-col">

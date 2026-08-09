@@ -27,22 +27,20 @@ const NavLinks = () => {
         <>
             {links.map((link) => {
                 const LinkIcon = link.icon;
+                const active = pathname === link.href;
                 return (
                     <Link
                         key={link.name}
                         href={link.href}
                         className={clsx(
-                            'flex h-full items-center justify-center rounded-md bg-[var(--color-panel)] text-sm font-medium hover:opacity-80 justify-start p-2',
-                            {
-                                'text-[var(--color-text-accent)]':
-                                    pathname === link.href,
-                                'text-[var(--color-text)]':
-                                    pathname !== link.href,
-                            }
+                            'flex items-center gap-1.5 border px-3 py-2 font-sans text-[10px] font-bold uppercase tracking-widest transition-colors',
+                            active
+                                ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
+                                : 'border-[var(--color-rule)] text-[var(--color-text)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]'
                         )}
                     >
-                        <LinkIcon className="w-6" />
-                        <p className="hidden md:block">{link.name}</p>
+                        <LinkIcon className="w-4" />
+                        <span className="hidden md:block">{link.name}</span>
                     </Link>
                 );
             })}
