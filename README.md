@@ -4,11 +4,11 @@ A free, lightweight pre-flight electronic flight bag (EFB) for pilots. FreeFligh
 
 ## Features
 
-- ✅ METAR lookup by ICAO code, with TAF and a VFR / MVFR / IFR / LIFR flight-category badge
-- ✅ PIREP lookup by ICAO code
-- ✅ Live nearby air traffic map, sourced from public ADS-B data
-- ✅ Day / night theme toggle — red-on-dark by default to preserve night vision, with a light day mode
-- ✅ Installable PWA with offline support via a service worker
+- METAR lookup by ICAO code, with TAF and a VFR / MVFR / IFR / LIFR flight-category badge
+- PIREP lookup by ICAO code
+- Live nearby air traffic map, sourced from public ADS-B data
+- Day / night theme toggle — red-on-dark by default to preserve night vision, with a light day mode
+- Installable PWA with offline support via a service worker
 
 No accounts, sign-ups, or API keys are required to run or use FreeFlight. Weather data comes from the National Weather Service's [aviationweather.gov](https://aviationweather.gov) API, and traffic data comes from [adsb.lol](https://adsb.lol) — both free and public.
 
