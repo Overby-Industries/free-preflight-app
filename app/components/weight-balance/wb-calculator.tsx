@@ -16,15 +16,18 @@ const WBCalculator = ({ profile }: WBCalculatorProps) => {
 
     return (
         <div className="panel flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
                 {profile.stations.map((station) => (
-                    <label key={station.id} className="flex items-center justify-between gap-2">
+                    <label
+                        key={station.id}
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2"
+                    >
                         <span className="text-sm">
                             {station.name} <span className="opacity-60">(arm {station.arm} in)</span>
                         </span>
                         <input
                             type="number"
-                            className="field w-28"
+                            className="field w-full sm:w-28"
                             value={stationWeights[station.id] ?? ''}
                             onChange={(e) =>
                                 setStationWeights((prev) => ({

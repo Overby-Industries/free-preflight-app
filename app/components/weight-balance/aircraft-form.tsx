@@ -115,7 +115,7 @@ const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
                     </button>
                 </div>
                 {profile.stations.map((station) => (
-                    <div key={station.id} className="flex gap-2 items-center">
+                    <div key={station.id} className="flex flex-col sm:flex-row gap-2 sm:items-center">
                         <input
                             className={inputClass}
                             value={station.name}
@@ -123,7 +123,7 @@ const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
                             placeholder="Station name, e.g. Front Seats"
                         />
                         <input
-                            className={`${inputClass} max-w-[140px]`}
+                            className={`${inputClass} w-full sm:max-w-[140px]`}
                             type="number"
                             value={station.arm}
                             onChange={(e) =>
@@ -134,7 +134,7 @@ const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
                         <button
                             type="button"
                             onClick={() => removeStation(station.id)}
-                            className="text-[var(--color-warn)] text-sm"
+                            className="text-[var(--color-warn)] text-sm text-left sm:text-center py-1 sm:py-0"
                         >
                             Remove
                         </button>
@@ -156,7 +156,7 @@ const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
                     </button>
                 </div>
                 {profile.envelope.map((point, index) => (
-                    <div key={index} className="flex gap-2 items-center">
+                    <div key={index} className="flex flex-col sm:flex-row gap-2 sm:items-center">
                         <input
                             className={inputClass}
                             type="number"
@@ -178,7 +178,7 @@ const AircraftForm = ({ initial, onSave, onCancel }: AircraftFormProps) => {
                         <button
                             type="button"
                             onClick={() => removeEnvelopePoint(index)}
-                            className="text-[var(--color-warn)] text-sm"
+                            className="text-[var(--color-warn)] text-sm text-left sm:text-center py-1 sm:py-0"
                         >
                             Remove
                         </button>
