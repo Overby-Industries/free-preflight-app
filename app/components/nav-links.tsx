@@ -1,6 +1,7 @@
 'use client';
 
 import {
+    CloudIcon,
     MapIcon,
     RocketLaunchIcon,
     ScaleIcon,
@@ -16,6 +17,7 @@ const links = [
     { name: 'Dashboard', href: '/ui/dashboard', icon: Square3Stack3DIcon },
     { name: 'Weather', href: '/ui/dashboard/weather', icon: SunIcon },
     { name: 'Traffic', href: '/ui/dashboard/traffic', icon: MapIcon },
+    { name: 'Radar', href: '/ui/dashboard/radar', icon: CloudIcon },
     { name: 'Weight & Balance', href: '/ui/dashboard/weight-balance', icon: ScaleIcon },
     { name: 'Pre-Flight', href: '/ui/dashboard/pre-flight', icon: RocketLaunchIcon },
 ];
