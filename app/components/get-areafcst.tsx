@@ -2,12 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 
-// Sources disagree on the exact valid region codes for this endpoint, so
-// this is a free-text field rather than a locked-down dropdown — these are
-// just quick-pick suggestions, not a validated list.
+// Confirmed against the live API: "aksoutheast" returns real data, while
+// "alaska"/"hawaii" (from a since-discredited source) both 400. These 7
+// Alaska sub-region codes are the real enum for this endpoint.
 const SUGGESTIONS = [
-    'alaska',
-    'hawaii',
     'aknorth',
     'akcentral',
     'akaleutian',
@@ -18,7 +16,7 @@ const SUGGESTIONS = [
 ];
 
 const GetAreaFcst = () => {
-    const [region, setRegion] = useState('alaska');
+    const [region, setRegion] = useState('aksoutheast');
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -51,14 +49,14 @@ const GetAreaFcst = () => {
         <div className="flex flex-col h-fit w-full py-4">
             <span className="eyebrow">Area Forecast</span>
             <p className="text-xs opacity-60 pb-2">
-                US area forecasts are issued only outside the contiguous states (Alaska, Hawaii, etc).
+                US area forecasts are issued only for Alaska sub-regions (the CONUS area forecast was discontinued).
             </p>
             <div className="flex flex-row h-fit w-full items-center gap-2 pb-2">
                 <input
                     className="field flex-1 min-w-0"
                     value={region}
                     onChange={(e) => setRegion(e.target.value.toLowerCase())}
-                    placeholder="Region e.g. alaska"
+                    placeholder="Region e.g. aksoutheast"
                 />
                 <button
                     type="button"
