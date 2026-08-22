@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const GetFcstDisc = () => {
     const [cwa, setCwa] = useState('');
@@ -9,11 +9,11 @@ const GetFcstDisc = () => {
     const [error, setError] = useState<string | null>(null);
 
     const fetchFcstDisc = async (selectedCwa: string) => {
-        if (!selectedCwa.trim()) return;
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`/api/fcstdisc?cwa=${encodeURIComponent(selectedCwa.trim())}`);
+            const query = selectedCwa.trim() ? `?cwa=${encodeURIComponent(selectedCwa.trim())}` : '';
+            const response = await fetch(`/api/fcstdisc${query}`);
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error ?? 'Failed to fetch the forecast discussion.');
@@ -27,16 +27,21 @@ const GetFcstDisc = () => {
         }
     };
 
+    useEffect(() => {
+        fetchFcstDisc(cwa);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div className="flex flex-col h-fit w-full py-4">
             <span className="eyebrow">Area Forecast Discussion</span>
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 pb-3">
                 <input
-                    className="field w-full sm:w-auto sm:flex-1 sm:max-w-[140px]"
+                    className="field w-full sm:w-auto sm:flex-1 sm:max-w-[160px]"
                     value={cwa}
                     onChange={(e) => setCwa(e.target.value.toUpperCase())}
-                    maxLength={3}
-                    placeholder="CWSU e.g. ZKC"
+                    maxLength={4}
+                    placeholder="WFO e.g. EAX (optional)"
                 />
                 <button
                     type="button"
@@ -51,7 +56,7 @@ const GetFcstDisc = () => {
             <textarea
                 className="field w-full text-[var(--color-text-accent)] text-xs"
                 name="fcstDiscData"
-                value={text || (loading ? 'Loading...' : 'Enter a CWSU identifier (e.g. ZKC, ZAB) and press Get.')}
+                value={text || (loading ? 'Loading...' : 'No data.')}
                 readOnly
                 rows={10}
             />
