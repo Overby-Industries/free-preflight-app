@@ -41,7 +41,7 @@ const GetFcstDisc = () => {
                     value={cwa}
                     onChange={(e) => setCwa(e.target.value.toUpperCase())}
                     maxLength={4}
-                    placeholder="WFO e.g. EAX (optional)"
+                    placeholder="WFO e.g. KEAX (optional)"
                 />
                 <button
                     type="button"

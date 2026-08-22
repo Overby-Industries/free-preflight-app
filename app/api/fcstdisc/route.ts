@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-    const cwa = request.nextUrl.searchParams.get('cwa')?.trim().toLowerCase();
+    const rawCwa = request.nextUrl.searchParams.get('cwa')?.trim().toLowerCase();
+    // The endpoint's only documented example uses the 4-character,
+    // K-prefixed station form ("keax", not the bare 3-letter WFO id "eax") —
+    // normalize so either form entered by the user works.
+    const cwa = rawCwa && rawCwa.length === 3 ? `k${rawCwa}` : rawCwa;
     const params = new URLSearchParams({ type: 'afd' });
     if (cwa) {
         params.set('cwa', cwa);
