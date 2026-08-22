@@ -2,27 +2,33 @@
 
 import React, { useEffect, useState } from 'react';
 
-const REGIONS = [
-    { value: 'aknorth', label: 'Alaska - North' },
-    { value: 'akcentral', label: 'Alaska - Central' },
-    { value: 'akaleutian', label: 'Alaska - Aleutians' },
-    { value: 'aksouth', label: 'Alaska - South' },
-    { value: 'aksouthwest', label: 'Alaska - Southwest' },
-    { value: 'aksoutheast', label: 'Alaska - Southeast' },
-    { value: 'akpanhandle', label: 'Alaska - Panhandle' },
+// Sources disagree on the exact valid region codes for this endpoint, so
+// this is a free-text field rather than a locked-down dropdown — these are
+// just quick-pick suggestions, not a validated list.
+const SUGGESTIONS = [
+    'alaska',
+    'hawaii',
+    'aknorth',
+    'akcentral',
+    'akaleutian',
+    'aksouth',
+    'aksouthwest',
+    'aksoutheast',
+    'akpanhandle',
 ];
 
 const GetAreaFcst = () => {
-    const [region, setRegion] = useState('aknorth');
+    const [region, setRegion] = useState('alaska');
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const fetchAreaFcst = async (selectedRegion: string) => {
+        if (!selectedRegion.trim()) return;
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`/api/areafcst?region=${encodeURIComponent(selectedRegion)}`);
+            const response = await fetch(`/api/areafcst?region=${encodeURIComponent(selectedRegion.trim())}`);
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error ?? 'Failed to fetch the area forecast.');
@@ -45,20 +51,15 @@ const GetAreaFcst = () => {
         <div className="flex flex-col h-fit w-full py-4">
             <span className="eyebrow">Area Forecast</span>
             <p className="text-xs opacity-60 pb-2">
-                US area forecasts are issued only for Alaska (the CONUS area forecast was discontinued).
+                US area forecasts are issued only outside the contiguous states (Alaska, Hawaii, etc).
             </p>
-            <div className="flex flex-row h-fit w-full items-center gap-2 pb-3">
-                <select
+            <div className="flex flex-row h-fit w-full items-center gap-2 pb-2">
+                <input
                     className="field flex-1 min-w-0"
                     value={region}
-                    onChange={(e) => setRegion(e.target.value)}
-                >
-                    {REGIONS.map((r) => (
-                        <option key={r.value} value={r.value}>
-                            {r.label}
-                        </option>
-                    ))}
-                </select>
+                    onChange={(e) => setRegion(e.target.value.toLowerCase())}
+                    placeholder="Region e.g. alaska"
+                />
                 <button
                     type="button"
                     className="btn"
@@ -67,6 +68,21 @@ const GetAreaFcst = () => {
                 >
                     {loading ? 'Loading...' : 'Refresh'}
                 </button>
+            </div>
+            <div className="flex flex-wrap gap-1 pb-3">
+                {SUGGESTIONS.map((s) => (
+                    <button
+                        key={s}
+                        type="button"
+                        onClick={() => {
+                            setRegion(s);
+                            fetchAreaFcst(s);
+                        }}
+                        className="font-mono text-[10px] uppercase px-1.5 py-0.5 border border-[var(--color-rule)] text-[var(--color-text-accent)] hover:border-[var(--color-accent)]"
+                    >
+                        {s}
+                    </button>
+                ))}
             </div>
             {error && <p className="text-[var(--color-warn)] text-sm pb-2">{error}</p>}
             <textarea

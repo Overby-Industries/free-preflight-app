@@ -6,24 +6,22 @@ export async function GET(request: NextRequest) {
     const lon = Number(request.nextUrl.searchParams.get('lon'));
     const radiusParam = request.nextUrl.searchParams.get('radius');
 
-    if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
-        return NextResponse.json({ error: 'Missing "lat"/"lon" query params.' }, { status: 400 });
+    // bbox is optional for this endpoint — omitting it returns the
+    // nationwide feature set instead of one scoped around a point.
+    const params = new URLSearchParams({ format: 'geojson' });
+    if (Number.isFinite(lat) && Number.isFinite(lon)) {
+        const radius = Math.min(Math.max(Number(radiusParam) || 10, 1), 50);
+        params.set('bbox', radiusToBbox(lat, lon, radius));
     }
 
-    const radius = Math.min(Math.max(Number(radiusParam) || 10, 1), 50);
-    const bbox = radiusToBbox(lat, lon, radius);
-
     try {
-        const response = await fetch(
-            `https://aviationweather.gov/api/data/feature?bbox=${encodeURIComponent(bbox)}&format=geojson`,
-            {
-                cache: 'no-store',
-                headers: {
-                    'User-Agent': 'FreeFlight-EFB (+https://github.com/Overby-Industries/free-preflight-app)',
-                    Accept: 'application/geo+json, application/json',
-                },
-            }
-        );
+        const response = await fetch(`https://aviationweather.gov/api/data/feature?${params.toString()}`, {
+            cache: 'no-store',
+            headers: {
+                'User-Agent': 'FreeFlight-EFB (+https://github.com/Overby-Industries/free-preflight-app)',
+                Accept: 'application/geo+json, application/json',
+            },
+        });
 
         if (!response.ok) {
             return NextResponse.json(

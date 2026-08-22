@@ -1,26 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const VALID_REGIONS = [
-    'aknorth',
-    'akcentral',
-    'akaleutian',
-    'aksouth',
-    'aksouthwest',
-    'aksoutheast',
-    'akpanhandle',
-];
-
 export async function GET(request: NextRequest) {
-    const region = request.nextUrl.searchParams.get('region');
+    const region = request.nextUrl.searchParams.get('region')?.trim().toLowerCase();
 
-    if (!region || !VALID_REGIONS.includes(region)) {
-        return NextResponse.json(
-            { error: `"region" must be one of: ${VALID_REGIONS.join(', ')}.` },
-            { status: 400 }
-        );
+    if (!region) {
+        return NextResponse.json({ error: 'Missing "region" query param.' }, { status: 400 });
     }
 
     try {
+        // Region codes for this endpoint aren't reliably confirmed (sources
+        // disagree — some show 7 Alaska sub-regions, others show a single
+        // "alaska"/"hawaii" value) — pass whatever the caller provides
+        // straight through and let the upstream response be the source of
+        // truth instead of rejecting values our own guess might have missed.
         const response = await fetch(
             `https://aviationweather.gov/api/data/areafcst?region=${encodeURIComponent(region)}`,
             {
