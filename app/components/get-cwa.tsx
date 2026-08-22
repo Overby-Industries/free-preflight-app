@@ -84,7 +84,7 @@ const GetCwa = () => {
                                 {item.cwsu}
                             </span>
                         )}
-                        <span className="text-sm break-words whitespace-pre-wrap">{pickRawText(item)}</span>
+                        <span className="text-sm break-all whitespace-pre-wrap">{pickRawText(item)}</span>
                     </div>
                 ))}
             </div>

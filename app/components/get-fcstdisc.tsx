@@ -4,18 +4,16 @@ import React, { useState } from 'react';
 
 const GetFcstDisc = () => {
     const [cwa, setCwa] = useState('');
-    const [type, setType] = useState('afd');
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchFcstDisc = async (selectedCwa: string, selectedType: string) => {
+    const fetchFcstDisc = async (selectedCwa: string) => {
         if (!selectedCwa.trim()) return;
         setLoading(true);
         setError(null);
         try {
-            const params = new URLSearchParams({ cwa: selectedCwa.trim(), type: selectedType });
-            const response = await fetch(`/api/fcstdisc?${params.toString()}`);
+            const response = await fetch(`/api/fcstdisc?cwa=${encodeURIComponent(selectedCwa.trim())}`);
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error ?? 'Failed to fetch the forecast discussion.');
@@ -40,18 +38,10 @@ const GetFcstDisc = () => {
                     maxLength={3}
                     placeholder="CWSU e.g. ZKC"
                 />
-                <select
-                    className="field w-full sm:w-auto"
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                >
-                    <option value="afd">Forecast discussion</option>
-                    <option value="af">Area forecast</option>
-                </select>
                 <button
                     type="button"
                     className="btn"
-                    onClick={() => fetchFcstDisc(cwa, type)}
+                    onClick={() => fetchFcstDisc(cwa)}
                     disabled={loading}
                 >
                     {loading ? 'Loading...' : 'Get'}

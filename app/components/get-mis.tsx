@@ -9,17 +9,15 @@ type MisItem = Record<string, unknown> & {
 };
 
 const GetMis = () => {
-    const [loc, setLoc] = useState('');
     const [items, setItems] = useState<MisItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchMis = async (filter: string) => {
+    const fetchMis = async () => {
         setLoading(true);
         setError(null);
         try {
-            const query = filter.trim() ? `?loc=${encodeURIComponent(filter.trim())}` : '';
-            const response = await fetch(`/api/mis${query}`);
+            const response = await fetch('/api/mis');
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error ?? 'Failed to fetch Meteorological Impact Statements.');
@@ -34,25 +32,17 @@ const GetMis = () => {
     };
 
     useEffect(() => {
-        fetchMis(loc);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        fetchMis();
     }, []);
 
     return (
         <div className="flex flex-col h-fit w-full py-4">
             <span className="eyebrow">Meteorological Impact Statements</span>
             <div className="flex flex-row h-fit w-full items-center gap-2 pb-3">
-                <input
-                    className="field flex-1 min-w-0"
-                    value={loc}
-                    onChange={(e) => setLoc(e.target.value.toUpperCase())}
-                    maxLength={3}
-                    placeholder="CWSU e.g. ZKC (optional)"
-                />
                 <button
                     type="button"
                     className="btn"
-                    onClick={() => fetchMis(loc)}
+                    onClick={() => fetchMis()}
                     disabled={loading}
                 >
                     {loading ? 'Loading...' : 'Refresh'}
@@ -70,7 +60,7 @@ const GetMis = () => {
                                 {item.cwsu}
                             </span>
                         )}
-                        <span className="text-sm break-words whitespace-pre-wrap">{pickRawText(item)}</span>
+                        <span className="text-sm break-all whitespace-pre-wrap">{pickRawText(item)}</span>
                     </div>
                 ))}
             </div>
