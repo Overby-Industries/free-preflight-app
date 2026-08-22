@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-    const cwsu = request.nextUrl.searchParams.get('cwsu')?.trim().toUpperCase();
+    const loc = request.nextUrl.searchParams.get('loc')?.trim().toUpperCase();
     const params = new URLSearchParams({ format: 'json' });
-    if (cwsu) {
-        params.set('cwsu', cwsu);
+    if (loc) {
+        params.set('loc', loc);
     }
 
     try {

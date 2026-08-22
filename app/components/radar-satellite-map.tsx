@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MapContainer, TileLayer, WMSTileLayer, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { FeatureCollection, Geometry } from 'geojson';
 import type { Theme } from '@/app/context/theme-context';
@@ -23,14 +23,13 @@ const TILE_LAYERS: Record<Theme, { url: string; attribution: string }> = {
 // tiles, no key required.
 const RADAR_TILE_URL = 'https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{z}/{x}/{y}.png';
 
-// NOAA nowCOAST GOES-East/West + global mosaic composite imagery (GeoColor-
-// style). The exact WMS sublayer name/index isn't verifiable from this
-// environment (GetCapabilities is blocked here) — "0" is nowCOAST's usual
-// default/top sublayer for this service. If satellite tiles come back
-// blank, this is the first thing to check against the service's
-// GetCapabilities response.
-const SATELLITE_WMS_URL = 'https://nowcoast.noaa.gov/arcgis/services/nowcoast/sat_meteo_imagery_time/MapServer/WMSServer';
-const SATELLITE_WMS_LAYER = '0';
+// Iowa Environmental Mesonet GOES infrared composite mosaic — same public
+// XYZ tile mechanism as the radar layer above (no key, no WMS time
+// dimension to get wrong). Switched to this from NOAA nowCOAST's WMS
+// service after the WMS layer came back blank in production — nowCOAST's
+// service is time-enabled and Leaflet's plain WMSTileLayer doesn't supply
+// the TIME dimension parameter it likely needs.
+const SATELLITE_TILE_URL = 'https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-ir-4km/{z}/{x}/{y}.png';
 
 const ALERT_SEVERITY_COLOR: Record<string, string> = {
     Extreme: '#a21caf',
@@ -73,15 +72,10 @@ const RadarSatelliteMap = ({
         <MapContainer center={center} zoom={zoom} style={{ height: '500px', width: '100%' }}>
             <TileLayer url={tiles.url} attribution={tiles.attribution} />
             {showSatellite && (
-                <WMSTileLayer
-                    url={SATELLITE_WMS_URL}
-                    params={{
-                        layers: SATELLITE_WMS_LAYER,
-                        format: 'image/png',
-                        transparent: true,
-                    }}
+                <TileLayer
+                    url={SATELLITE_TILE_URL}
                     opacity={satelliteOpacity}
-                    attribution="NOAA/NESDIS/nowCOAST"
+                    attribution="GOES/NESDIS &copy; Iowa Environmental Mesonet"
                 />
             )}
             {showRadar && (

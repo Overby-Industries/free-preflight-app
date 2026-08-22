@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const VALID_TYPES = ['afd', 'af'];
+
 export async function GET(request: NextRequest) {
-    const region = request.nextUrl.searchParams.get('region')?.trim().toLowerCase();
-    const params = new URLSearchParams({ format: 'raw' });
-    if (region) {
-        params.set('region', region);
+    const cwa = request.nextUrl.searchParams.get('cwa')?.trim().toUpperCase();
+    const type = request.nextUrl.searchParams.get('type');
+    const params = new URLSearchParams();
+    if (cwa) {
+        params.set('cwa', cwa);
+    }
+    if (type && VALID_TYPES.includes(type)) {
+        params.set('type', type);
     }
 
     try {

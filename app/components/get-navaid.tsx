@@ -57,8 +57,8 @@ const GetNavaid = () => {
                     <div key={index} className="flex flex-col gap-1 text-sm">
                         {fieldEntries(item).map(([key, value]) => (
                             <div key={key} className="flex justify-between gap-2">
-                                <span className="opacity-60">{key}</span>
-                                <span className="text-right break-words">{formatFieldValue(value)}</span>
+                                <span className="opacity-60 shrink-0">{key}</span>
+                                <span className="text-right break-all min-w-0 flex-1">{formatFieldValue(value)}</span>
                             </div>
                         ))}
                     </div>
