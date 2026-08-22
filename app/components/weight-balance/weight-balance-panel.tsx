@@ -28,9 +28,9 @@ const WeightBalancePanel = () => {
                 placeholder or example data — for real flight planning.
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                 <select
-                    className="field"
+                    className="field w-full sm:w-auto sm:flex-1 sm:max-w-xs"
                     value={selectedId ?? ''}
                     onChange={(e) => setSelectedId(e.target.value)}
                 >
@@ -40,32 +40,34 @@ const WeightBalancePanel = () => {
                         </option>
                     ))}
                 </select>
-                <button
-                    type="button"
-                    className="btn"
-                    onClick={() => setEditing(createBlankProfile())}
-                >
-                    + Add aircraft
-                </button>
-                {selectedProfile && (
-                    <>
-                        <button
-                            type="button"
-                            className="btn"
-                            onClick={() => setEditing(selectedProfile)}
-                        >
-                            Edit
-                        </button>
-                        <button
-                            type="button"
-                            className="btn"
-                            style={{ color: 'var(--color-warn)', borderColor: 'var(--color-warn)' }}
-                            onClick={() => deleteProfile(selectedProfile.id)}
-                        >
-                            Delete
-                        </button>
-                    </>
-                )}
+                <div className="flex flex-wrap gap-2">
+                    <button
+                        type="button"
+                        className="btn"
+                        onClick={() => setEditing(createBlankProfile())}
+                    >
+                        + Add aircraft
+                    </button>
+                    {selectedProfile && (
+                        <>
+                            <button
+                                type="button"
+                                className="btn"
+                                onClick={() => setEditing(selectedProfile)}
+                            >
+                                Edit
+                            </button>
+                            <button
+                                type="button"
+                                className="btn"
+                                style={{ color: 'var(--color-warn)', borderColor: 'var(--color-warn)' }}
+                                onClick={() => deleteProfile(selectedProfile.id)}
+                            >
+                                Delete
+                            </button>
+                        </>
+                    )}
+                </div>
             </div>
 
             {editing && (
