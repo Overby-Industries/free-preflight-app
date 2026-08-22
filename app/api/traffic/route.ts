@@ -14,7 +14,16 @@ export async function GET(request: NextRequest) {
     try {
         const response = await fetch(
             `https://api.adsb.lol/v2/point/${encodeURIComponent(lat)}/${encodeURIComponent(lon)}/${radius}`,
-            { cache: 'no-store' }
+            {
+                cache: 'no-store',
+                headers: {
+                    // adsb.lol is a volunteer-run service that blocks requests without an
+                    // identifying User-Agent (common with serverless egress IPs) — see
+                    // https://www.adsb.lol/docs/open-data/api/
+                    'User-Agent': 'FreeFlight-EFB (+https://github.com/Overby-Industries/free-preflight-app)',
+                    Accept: 'application/json',
+                },
+            }
         );
 
         if (!response.ok) {
