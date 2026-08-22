@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { DocumentTextIcon } from '@heroicons/react/24/outline';
+import { DocumentTextIcon, BookOpenIcon } from '@heroicons/react/24/outline';
 import GetMetar from '@/app/components/get-metar';
 import GetPirep from '@/app/components/get-pirep';
 import GetAirSigmet from '@/app/components/get-airsigmet';
@@ -12,6 +12,12 @@ const MORE_SECTIONS = [
         href: '/ui/dashboard/weather/products',
         icon: DocumentTextIcon,
         desc: 'CWA, MIS, TFM convective forecast, area forecast discussion, and NWS active alerts.',
+    },
+    {
+        name: 'Reference Data',
+        href: '/ui/dashboard/weather/reference',
+        icon: BookOpenIcon,
+        desc: 'Airport/station info, NAVAID, fix, and obstacles near an airport.',
     },
 ];
 

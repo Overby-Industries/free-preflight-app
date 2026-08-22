@@ -12,3 +12,15 @@ export const pickRawText = (item: Record<string, unknown>): string => {
     }
     return JSON.stringify(item, null, 2);
 };
+
+// Reference-data schemas (airport/navaid/fix) aren't confirmed against a
+// live response either, so render every field generically instead of
+// hard-coding field names that might not match.
+export const formatFieldValue = (value: unknown): string => {
+    if (value === null || value === undefined || value === '') return '—';
+    if (typeof value === 'object') return JSON.stringify(value);
+    return String(value);
+};
+
+export const fieldEntries = (item: Record<string, unknown>): [string, unknown][] =>
+    Object.entries(item).filter(([, value]) => value !== null && value !== undefined && value !== '');
