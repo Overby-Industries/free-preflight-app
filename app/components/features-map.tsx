@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { FeatureCollection, Geometry } from 'geojson';
@@ -25,14 +25,6 @@ const ICON_COLORS: Record<Theme, string> = {
     day: '#b8962e',
     night: '#e0554a',
 };
-
-const featureIcon = (color: string) =>
-    L.divIcon({
-        className: 'feature-icon',
-        html: `<div style="width: 10px; height: 10px; background: ${color}; border: 1.5px solid white; border-radius: 50%;"></div>`,
-        iconSize: [10, 10],
-        iconAnchor: [5, 5],
-    });
 
 const escapeHtml = (value: string) =>
     value
@@ -59,24 +51,31 @@ export type FeaturesGeoJson = FeatureCollection<Geometry, Record<string, unknown
 
 type FeaturesMapProps = {
     center: [number, number];
+    zoom: number;
     theme: Theme;
     features: FeaturesGeoJson;
+    /** Bump this when `features` is replaced with a new fetch, to force the
+     * GeoJSON layer to remount — react-leaflet doesn't diff `data` itself. */
+    version: number;
 };
 
-const FeaturesMap = ({ center, theme, features }: FeaturesMapProps) => {
+const FeaturesMap = ({ center, zoom, theme, features, version }: FeaturesMapProps) => {
     const tiles = TILE_LAYERS[theme];
     const color = ICON_COLORS[theme];
 
     return (
-        <MapContainer center={center} zoom={11} style={{ height: '500px', width: '100%' }}>
+        <MapContainer center={center} zoom={zoom} style={{ height: '500px', width: '100%' }}>
             <TileLayer url={tiles.url} attribution={tiles.attribution} />
-            <Marker position={center} icon={featureIcon('#2563eb')}>
-                <Popup>Search center</Popup>
-            </Marker>
             <GeoJSON
-                key={JSON.stringify(features)}
+                key={version}
                 data={features}
-                pointToLayer={(_feature, latlng) => L.marker(latlng, { icon: featureIcon(color) })}
+                // circleMarker (SVG) instead of individual DOM markers — this
+                // dataset is nationwide and unbounded, potentially thousands
+                // of points, and DOM-per-point markers get sluggish at that
+                // scale on mobile.
+                pointToLayer={(_feature, latlng) =>
+                    L.circleMarker(latlng, { radius: 4, color: 'white', weight: 1, fillColor: color, fillOpacity: 1 })
+                }
                 onEachFeature={(feature, layer) => {
                     if (feature.properties) {
                         layer.bindPopup(popupHtml(feature.properties));
