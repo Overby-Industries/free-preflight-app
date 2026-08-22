@@ -9,7 +9,7 @@ type MisItem = Record<string, unknown> & {
 };
 
 const GetMis = () => {
-    const [cwsu, setCwsu] = useState('');
+    const [loc, setLoc] = useState('');
     const [items, setItems] = useState<MisItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -18,7 +18,7 @@ const GetMis = () => {
         setLoading(true);
         setError(null);
         try {
-            const query = filter.trim() ? `?cwsu=${encodeURIComponent(filter.trim())}` : '';
+            const query = filter.trim() ? `?loc=${encodeURIComponent(filter.trim())}` : '';
             const response = await fetch(`/api/mis${query}`);
             const data = await response.json();
             if (!response.ok) {
@@ -34,7 +34,7 @@ const GetMis = () => {
     };
 
     useEffect(() => {
-        fetchMis(cwsu);
+        fetchMis(loc);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -44,15 +44,15 @@ const GetMis = () => {
             <div className="flex flex-row h-fit w-full items-center gap-2 pb-3">
                 <input
                     className="field flex-1 min-w-0"
-                    value={cwsu}
-                    onChange={(e) => setCwsu(e.target.value.toUpperCase())}
+                    value={loc}
+                    onChange={(e) => setLoc(e.target.value.toUpperCase())}
                     maxLength={3}
                     placeholder="CWSU e.g. ZKC (optional)"
                 />
                 <button
                     type="button"
                     className="btn"
-                    onClick={() => fetchMis(cwsu)}
+                    onClick={() => fetchMis(loc)}
                     disabled={loading}
                 >
                     {loading ? 'Loading...' : 'Refresh'}

@@ -8,17 +8,27 @@ type CwaItem = Record<string, unknown> & {
     id?: string;
 };
 
+const HAZARDS = [
+    { value: '', label: 'All hazards' },
+    { value: 'ts', label: 'Thunderstorms' },
+    { value: 'turb', label: 'Turbulence' },
+    { value: 'ice', label: 'Icing' },
+    { value: 'ifr', label: 'IFR' },
+    { value: 'pcpn', label: 'Precipitation' },
+    { value: 'unk', label: 'Unknown' },
+];
+
 const GetCwa = () => {
-    const [cwsu, setCwsu] = useState('');
+    const [hazard, setHazard] = useState('');
     const [items, setItems] = useState<CwaItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchCwa = async (filter: string) => {
+    const fetchCwa = async (selectedHazard: string) => {
         setLoading(true);
         setError(null);
         try {
-            const query = filter.trim() ? `?cwsu=${encodeURIComponent(filter.trim())}` : '';
+            const query = selectedHazard ? `?hazard=${selectedHazard}` : '';
             const response = await fetch(`/api/cwa${query}`);
             const data = await response.json();
             if (!response.ok) {
@@ -34,7 +44,7 @@ const GetCwa = () => {
     };
 
     useEffect(() => {
-        fetchCwa(cwsu);
+        fetchCwa(hazard);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -42,17 +52,21 @@ const GetCwa = () => {
         <div className="flex flex-col h-fit w-full py-4">
             <span className="eyebrow">Center Weather Advisories</span>
             <div className="flex flex-row h-fit w-full items-center gap-2 pb-3">
-                <input
+                <select
                     className="field flex-1 min-w-0"
-                    value={cwsu}
-                    onChange={(e) => setCwsu(e.target.value.toUpperCase())}
-                    maxLength={3}
-                    placeholder="CWSU e.g. ZKC (optional)"
-                />
+                    value={hazard}
+                    onChange={(e) => setHazard(e.target.value)}
+                >
+                    {HAZARDS.map((h) => (
+                        <option key={h.value} value={h.value}>
+                            {h.label}
+                        </option>
+                    ))}
+                </select>
                 <button
                     type="button"
                     className="btn"
-                    onClick={() => fetchCwa(cwsu)}
+                    onClick={() => fetchCwa(hazard)}
                     disabled={loading}
                 >
                     {loading ? 'Loading...' : 'Refresh'}

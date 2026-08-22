@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const VALID_HAZARDS = ['ts', 'turb', 'ice', 'ifr', 'pcpn', 'unk'];
+
 export async function GET(request: NextRequest) {
-    const cwsu = request.nextUrl.searchParams.get('cwsu')?.trim().toUpperCase();
+    const hazard = request.nextUrl.searchParams.get('hazard');
     const params = new URLSearchParams({ format: 'json' });
-    if (cwsu) {
-        params.set('cwsu', cwsu);
+    if (hazard && VALID_HAZARDS.includes(hazard)) {
+        params.set('hazard', hazard);
     }
 
     try {

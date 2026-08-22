@@ -1,7 +1,7 @@
 import React from 'react';
 import GetCwa from '@/app/components/get-cwa';
 import GetMis from '@/app/components/get-mis';
-import GetTcf from '@/app/components/get-tcf';
+import GetAreaFcst from '@/app/components/get-areafcst';
 import GetFcstDisc from '@/app/components/get-fcstdisc';
 import GetAlerts from '@/app/components/get-alerts';
 
@@ -12,9 +12,9 @@ const WeatherProducts = () => {
             <h2 className="font-serif text-2xl text-[var(--color-text)] pb-2">Products &amp; Alerts</h2>
             <div className="flex flex-col w-full items-start divide-y divide-[var(--color-rule)]">
                 <GetFcstDisc />
+                <GetAreaFcst />
                 <GetCwa />
                 <GetMis />
-                <GetTcf />
                 <GetAlerts />
             </div>
         </section>
