@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 const GetFcstDisc = () => {
-    const [cwa, setCwa] = useState('');
+    const [cwa, setCwa] = useState('KEAX');
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
