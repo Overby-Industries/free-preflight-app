@@ -27,12 +27,12 @@ const GetFeatures = () => {
             const featureResponse = await fetch(`/api/feature?lat=${lat}&lon=${lon}&radius=10`);
             const featureData = await featureResponse.json();
             if (!featureResponse.ok) {
-                throw new Error(featureData.error ?? 'Failed to fetch sectional chart features.');
+                throw new Error(featureData.error ?? 'Failed to fetch aviation navigation features.');
             }
             setItems(Array.isArray(featureData) ? featureData : []);
         } catch (err) {
             setItems([]);
-            setError(err instanceof Error ? err.message : 'Failed to fetch sectional chart features.');
+            setError(err instanceof Error ? err.message : 'Failed to fetch aviation navigation features.');
         } finally {
             setLoading(false);
         }
@@ -45,7 +45,7 @@ const GetFeatures = () => {
 
     return (
         <div className="flex flex-col h-fit w-full py-4">
-            <span className="eyebrow">Sectional Chart Features</span>
+            <span className="eyebrow">Aviation Navigation Features</span>
             <div className="flex flex-row h-fit w-full items-center gap-2 pb-3">
                 <input
                     className="field flex-1 min-w-0"
@@ -66,7 +66,7 @@ const GetFeatures = () => {
             {error && <p className="text-[var(--color-warn)] text-sm pb-2">{error}</p>}
             <div className="panel flex flex-col gap-3 text-[var(--color-text)] max-h-64 overflow-y-auto">
                 {items.length === 0 && !loading && !error && (
-                    <span className="text-sm opacity-70">No landmark features found within 10 NM.</span>
+                    <span className="text-sm opacity-70">No aviation navigation features found within 10 NM.</span>
                 )}
                 {items.map((item, index) => (
                     <div

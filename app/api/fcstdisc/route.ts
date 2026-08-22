@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const VALID_TYPES = ['afd', 'af'];
-
 export async function GET(request: NextRequest) {
     const cwa = request.nextUrl.searchParams.get('cwa')?.trim().toUpperCase();
-    const type = request.nextUrl.searchParams.get('type');
-    const params = new URLSearchParams();
-    if (cwa) {
-        params.set('cwa', cwa);
+
+    if (!cwa) {
+        return NextResponse.json({ error: 'Missing "cwa" (CWSU identifier) query param.' }, { status: 400 });
     }
-    if (type && VALID_TYPES.includes(type)) {
-        params.set('type', type);
-    }
+
+    const params = new URLSearchParams({ cwa, type: 'afd' });
 
     try {
         const response = await fetch(`https://aviationweather.gov/api/data/fcstdisc?${params.toString()}`, {
