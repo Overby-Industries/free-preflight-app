@@ -1,11 +1,19 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { fieldEntries, formatFieldValue } from './weather-text-utils';
+import dynamic from 'next/dynamic';
+import { useTheme } from '@/app/context/theme-context';
+import type { FeaturesGeoJson } from './features-map';
+
+const FeaturesMap = dynamic(() => import('./features-map'), { ssr: false });
+
+const EMPTY_FEATURES: FeaturesGeoJson = { type: 'FeatureCollection', features: [] };
 
 const GetFeatures = () => {
+    const { theme } = useTheme();
     const [icao, setIcao] = useState('KJLN');
-    const [items, setItems] = useState<Record<string, unknown>[]>([]);
+    const [center, setCenter] = useState<[number, number] | null>(null);
+    const [features, setFeatures] = useState<FeaturesGeoJson>(EMPTY_FEATURES);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -29,9 +37,12 @@ const GetFeatures = () => {
             if (!featureResponse.ok) {
                 throw new Error(featureData.error ?? 'Failed to fetch aviation navigation features.');
             }
-            setItems(Array.isArray(featureData) ? featureData : []);
+
+            setCenter([lat, lon]);
+            setFeatures(featureData);
         } catch (err) {
-            setItems([]);
+            setCenter(null);
+            setFeatures(EMPTY_FEATURES);
             setError(err instanceof Error ? err.message : 'Failed to fetch aviation navigation features.');
         } finally {
             setLoading(false);
@@ -64,24 +75,14 @@ const GetFeatures = () => {
                 </button>
             </div>
             {error && <p className="text-[var(--color-warn)] text-sm pb-2">{error}</p>}
-            <div className="panel flex flex-col gap-3 text-[var(--color-text)] max-h-64 overflow-y-auto">
-                {items.length === 0 && !loading && !error && (
-                    <span className="text-sm opacity-70">No aviation navigation features found within 10 NM.</span>
-                )}
-                {items.map((item, index) => (
-                    <div
-                        key={index}
-                        className="flex flex-col gap-1 text-sm border-b border-[var(--color-rule)] pb-2 last:border-b-0 last:pb-0"
-                    >
-                        {fieldEntries(item).map(([key, value]) => (
-                            <div key={key} className="flex justify-between gap-2">
-                                <span className="opacity-60 shrink-0">{key}</span>
-                                <span className="text-right break-all min-w-0 flex-1">{formatFieldValue(value)}</span>
-                            </div>
-                        ))}
-                    </div>
-                ))}
-            </div>
+            {center && (
+                <div className="panel">
+                    <p className="text-sm pb-2 text-[var(--color-text-accent)]">
+                        {features.features.length} feature{features.features.length === 1 ? '' : 's'} within 10 NM
+                    </p>
+                    <FeaturesMap center={center} theme={theme} features={features} />
+                </div>
+            )}
         </div>
     );
 };

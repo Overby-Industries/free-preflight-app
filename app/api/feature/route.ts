@@ -15,12 +15,12 @@ export async function GET(request: NextRequest) {
 
     try {
         const response = await fetch(
-            `https://aviationweather.gov/api/data/feature?bbox=${encodeURIComponent(bbox)}&format=json`,
+            `https://aviationweather.gov/api/data/feature?bbox=${encodeURIComponent(bbox)}&format=geojson`,
             {
                 cache: 'no-store',
                 headers: {
                     'User-Agent': 'FreeFlight-EFB (+https://github.com/Overby-Industries/free-preflight-app)',
-                    Accept: 'application/json',
+                    Accept: 'application/geo+json, application/json',
                 },
             }
         );
@@ -33,7 +33,10 @@ export async function GET(request: NextRequest) {
         }
 
         const data = await response.json();
-        return NextResponse.json(data);
+        // Normalize to a standard FeatureCollection regardless of whether
+        // the response is already one or a bare array of Features.
+        const geojson = Array.isArray(data) ? { type: 'FeatureCollection', features: data } : data;
+        return NextResponse.json(geojson);
     } catch {
         return NextResponse.json({ error: 'Failed to reach the weather service.' }, { status: 502 });
     }
