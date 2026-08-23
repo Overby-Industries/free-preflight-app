@@ -1,5 +1,13 @@
 'use client';
 
+// NOTE: not currently rendered anywhere (see
+// app/ui/dashboard/weather/reference/page.tsx) — a nationwide CONUS bbox
+// against aviationweather.gov's /api/data/feature returns no usable data in
+// practice. Left in place for future rework; the most promising next idea
+// is querying along a flight route (departure/destination pair, buffered
+// into a corridor bbox or a sequence of leg-sized boxes) instead of one
+// static area, since this dataset may be meant for per-leg lookups.
+
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTheme } from '@/app/context/theme-context';
