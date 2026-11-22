@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTheme } from '@/app/context/theme-context';
 import type { AdsbAircraft } from './traffic-map';
+import { CARTO_KEY } from './map-key';
 
 const TrafficMap = dynamic(() => import('./traffic-map'), { ssr: false });
 
@@ -73,6 +74,11 @@ const GetTraffic = () => {
                 </button>
             </div>
             {error && <p className="text-[var(--color-warn)] text-sm pb-2">{error}</p>}
+            {!CARTO_KEY && (
+                <p className="text-[var(--color-warn)] text-sm pb-2" role="alert">
+                    The map background needs a free CARTO basemaps key. Set NEXT_PUBLIC_CARTO_BASEMAPS_KEY (see the README).
+                </p>
+            )}
             {center && (
                 <div className="panel">
                     <p className="text-sm pb-2 text-[var(--color-text-accent)]">{aircraft.length} aircraft nearby</p>
