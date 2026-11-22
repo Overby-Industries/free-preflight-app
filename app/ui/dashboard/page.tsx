@@ -1,18 +1,24 @@
 import Link from 'next/link';
-import { MapIcon, RocketLaunchIcon, ScaleIcon, SunIcon } from '@heroicons/react/24/outline';
+import { CloudIcon, MapIcon, RocketLaunchIcon, ScaleIcon, SunIcon } from '@heroicons/react/24/outline';
 
 const SECTIONS = [
     {
         name: 'Weather',
         href: '/ui/dashboard/weather',
         icon: SunIcon,
-        desc: 'METAR, TAF, PIREP, AIRMET/SIGMET, and winds aloft.',
+        desc: 'METAR, TAF, PIREP, AIRMET/SIGMET, winds aloft, advisory products, alerts, and reference data.',
     },
     {
         name: 'Traffic',
         href: '/ui/dashboard/traffic',
         icon: MapIcon,
         desc: 'Live nearby air traffic on a map.',
+    },
+    {
+        name: 'Radar & Satellite',
+        href: '/ui/dashboard/radar',
+        icon: CloudIcon,
+        desc: 'NEXRAD radar and GOES satellite imagery with active alerts overlay.',
     },
     {
         name: 'Weight & Balance',
