@@ -10,7 +10,7 @@ A free, lightweight pre-flight electronic flight bag (EFB) for pilots. FreeFligh
 - Day / night theme toggle — red-on-dark by default to preserve night vision, with a light day mode
 - Installable PWA with offline support via a service worker
 
-No accounts, sign-ups, or API keys are required to run or use FreeFlight. Weather data comes from the National Weather Service's [aviationweather.gov](https://aviationweather.gov) API, and traffic data comes from [adsb.lol](https://adsb.lol) — both free and public.
+No accounts or sign-ups are required to use FreeFlight. Weather data comes from the National Weather Service's [aviationweather.gov](https://aviationweather.gov) API, and traffic data comes from [adsb.lol](https://adsb.lol) — both free and public, and keyless. The one key the app needs is for the map's background tiles, which are [CARTO basemaps](https://carto.com/basemaps/): since September 2026 CARTO serves a watermark instead of the map without a free key (see Getting started).
 
 ## Roadmap
 
@@ -42,6 +42,14 @@ npm run dev
 ```
 
 Then open [http://localhost:3000](http://localhost:3000).
+
+**The map needs a free CARTO basemaps key**, or its tiles are a watermark that says "API key required". Get one (no account) at [carto.com/basemaps/apikey](https://carto.com/basemaps/apikey), copy `.env.example` to `.env.local`, and put the key in it:
+
+```
+NEXT_PUBLIC_CARTO_BASEMAPS_KEY=your-key
+```
+
+`.env.local` is not committed. The key is made for the browser (it is in the page's tile requests), so in CARTO's dashboard restrict it to your site's host and `localhost`. When you deploy, set the same variable in your host's environment settings **before the build**: it is read at build time, so changing it means building again.
 
 Other scripts: `npm run build` (production build), `npm run start` (serve a production build), `npm run lint`.
 
